@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#делаем вашу БД читаемой
+chmod -R 777 mariadb/mysql*
+#Создаём образ
+docker build -t debix-mariadb:10.3 . 
+#Запускаем образ и установливаем все, что нам необходимо
+docker run -it --volume {YOUR_DB_FOLDER_FULL_PATH}:/var/lib/mysql -p 3366:3306 --name deb_maria debix-mariadb:10.3
+#
+docker start deb_maria && docker exec -d -it  deb_maria /opt/mariadb/start_db.sh
